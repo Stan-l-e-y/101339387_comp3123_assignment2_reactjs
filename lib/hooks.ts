@@ -15,3 +15,15 @@ export function useFetch(url: RequestInfo | URL) {
     mutate,
   };
 }
+
+export function useFetchWithCondition(url: RequestInfo | URL, condition: any) {
+  const fetcher = async (url: RequestInfo | URL) =>
+    await fetch(url).then((res) => res.json());
+  const { data, error, mutate } = useSWR(condition ? url : null, fetcher);
+
+  return {
+    data,
+    error,
+    mutate,
+  };
+}

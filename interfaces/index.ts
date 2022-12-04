@@ -7,12 +7,7 @@ export type Employee = {
   salary: number;
 };
 
-// model Employee {
-//     id         String @id @default(auto()) @map("_id") @db.ObjectId
-//     v          Int    @map("__v")
-//     email      String
-//     first_name String
-//     gender     String
-//     last_name  String
-//     salary     Int
-//   }
+export interface EmployeeLayoutProps {
+  children?: React.ReactNode;
+  title: string;
+}
