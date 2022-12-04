@@ -3,10 +3,14 @@ import Link from 'next/link';
 
 export default function Navbar() {
   return (
-    <nav className="flex justify-between items-center h-16 bg-white text-black relative shadow-sm font-mono">
-      <Link href="/">
-        <a className="pl-8">Full Stack App</a>
-      </Link>
+    <nav className="flex justify-between items-center h-16 mt-10  relative shadow-sm  ">
+      <div className="ml-8">
+        <Link href="/">
+          <span className=" hover:bg-blue-700 bg-[#0070f3] p-4 rounded-lg ">
+            Home
+          </span>
+        </Link>
+      </div>
       <div className="px-4 cursor-pointer md:hidden">
         <svg
           className="w-6 h-6"
@@ -25,7 +29,9 @@ export default function Navbar() {
       </div>
       <div className="pr-8 md:block hidden">
         <Link href="/employee/add">
-          <a className="p-4">Add</a>
+          <span className="p-4 hover:bg-blue-700 bg-[#0070f3] rounded-lg">
+            Log Out
+          </span>
         </Link>
       </div>
     </nav>
