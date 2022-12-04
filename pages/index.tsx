@@ -1,8 +1,27 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import Head from 'next/head';
+import Image from 'next/image';
+import styles from '../styles/Home.module.css';
+import useSWR from 'swr';
+import { useEffect } from 'react';
 
 export default function Home() {
+  // const fetcher = async (url, token) =>
+  // await fetch(url, { headers: { Authorization: `Bearer ${token}` } }).then(
+  //   (res) => res.json()
+  // );
+  const fetcher = async (url: RequestInfo | URL) =>
+    await fetch(url).then((res) => res.json());
+
+  const { data, error } = useSWR('/api/employees', fetcher);
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+
+  if (error) return <div>failed to load</div>;
+
+  if (!data) return <div>loading...</div>;
+
   return (
     <div className={styles.container}>
       <Head>
@@ -67,5 +86,5 @@ export default function Home() {
         </a>
       </footer>
     </div>
-  )
+  );
 }
