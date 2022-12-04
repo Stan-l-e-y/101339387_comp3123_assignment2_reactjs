@@ -34,7 +34,6 @@ export default function Update() {
   } = useForm<IEmployeeData>();
 
   const onSubmit = async (data: IEmployeeData) => {
-    // console.log(data);
     try {
       const res = await fetcher(`/api/employee/${employeeId}`, {
         method: 'PUT',
