@@ -5,7 +5,6 @@ import { type Employee } from '../interfaces/index';
 import { useFetch } from '../lib/hooks';
 import EmployeeLayout from '../components/EmployeeLayout';
 import { useRouter } from 'next/router';
-import { KeyedMutator } from 'swr';
 
 export default function Home() {
   const router = useRouter();

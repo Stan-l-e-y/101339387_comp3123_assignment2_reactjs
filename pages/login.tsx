@@ -28,18 +28,18 @@ export default function Login() {
       });
       const dataJson = await res.json();
       if (res.ok) {
-        console.log('good');
-        // router.push('/');
+        const { token } = dataJson;
+        document.cookie = `jwt=${token}; path=/; expires=${new Date(
+          (Math.floor(Date.now() / 1000) + 60 * 60) * 1000
+        ).toUTCString()};`;
+        router.push('/');
       }
       if (res.status !== 200) {
         throw new Error(dataJson.error);
       }
-      //   if (dataJson.token) {
-      //       localStorage.setItem('token', dataJson.token);
-      //     set token as jwt cookie in browser
-
-      //     router.push('/');
-      //   }
+      if (dataJson.token) {
+        router.push('/');
+      }
     } catch (error: any) {
       setServerError(error.message);
       setTimeout(() => {
