@@ -2,8 +2,10 @@ import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 import { ILogin } from '../interfaces';
 import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/router';
 
 export default function Login() {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -87,7 +89,10 @@ export default function Login() {
               >
                 Log in
               </button>
-              <div className="hover:cursor-pointer text-[#0070f3] hover:text-blue-700 underline">
+              <div
+                className="hover:cursor-pointer text-[#0070f3] hover:text-blue-700 underline"
+                onClick={() => router.push('/register')}
+              >
                 Not registered?
               </div>
             </div>
