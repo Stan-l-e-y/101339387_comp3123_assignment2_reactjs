@@ -18,22 +18,44 @@ export default function Add() {
   } = useForm<IEmployeeData>();
 
   const [error, setError] = useState<string | null>(null);
+  const [showServerError, setShowServerError] = useState<boolean>(false);
 
   const onSubmit: SubmitHandler<IEmployeeData> = async (
     data: IEmployeeData
   ) => {
     console.log(data);
-    // const res = await fetcher('/api/employee/post', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    // });
+    try {
+      const res: Response = await fetcher('/api/employee/post', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (res.status === 200) {
+        router.push('/');
+      }
+    } catch (error: any) {
+      console.log(error);
+      setError(error.message);
+      setShowServerError(true);
+      setTimeout(() => {
+        setShowServerError(false);
+        setError(null);
+      }, 4000);
+    }
   };
 
   return (
     <EmployeeLayout title="Add">
-      <form onSubmit={handleSubmit(onSubmit)} className="h-[40rem] flex-col">
+      {showServerError && error && (
+        <div className="text-red-500 mt-10">{error}</div>
+      )}
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="h-[40rem] w-[20rem] flex-col"
+      >
         <div className="mt-10 flex flex-col">
           <label htmlFor="first_name" className="font-semibold mb-2">
             First Name
@@ -41,6 +63,7 @@ export default function Add() {
           <input
             type="text"
             className="form-control
+            w-full
                       self-start
                       px-3
                       py-1.5
@@ -55,7 +78,9 @@ export default function Add() {
             {...register('first_name', { required: true })}
             placeholder="Enter first name*"
           ></input>
-          {errors.first_name && <p>{errors.first_name.message}</p>}
+          {errors.first_name && (
+            <p className="text-red-500 mt-3">{errors.first_name.message}</p>
+          )}
         </div>
         <div className="mt-5 flex flex-col">
           <label htmlFor="last_name" className="font-semibold mb-2">
@@ -66,6 +91,7 @@ export default function Add() {
             className="form-control
                       self-start
                       px-3
+                      w-full
                       py-1.5
                       text-base
                       font-normal
@@ -78,7 +104,9 @@ export default function Add() {
             {...register('last_name', { required: true })}
             placeholder="Enter last name*"
           ></input>
-          {errors.last_name && <p>{errors.last_name.message}</p>}
+          {errors.last_name && (
+            <p className="text-red-500 mt-3">{errors.last_name.message}</p>
+          )}
         </div>
         <div className="mt-5 flex flex-col">
           <label htmlFor="email" className="font-semibold mb-2">
@@ -90,6 +118,7 @@ export default function Add() {
                       self-start
                       px-3
                       py-1.5
+                      w-full
                       text-base
                       font-normal
                       text-white
@@ -101,16 +130,18 @@ export default function Add() {
             {...register('email', { required: true })}
             placeholder="Enter Email*"
           ></input>
-          {errors.email && <p>{errors.email.message}</p>}
+          {errors.email && (
+            <p className="text-red-500 mt-3">{errors.email.message}</p>
+          )}
         </div>
         <div className="mt-5 flex flex-col">
           <label htmlFor="gender" className="font-semibold mb-2">
             Gender
           </label>
           <select
-            className="p-2.5 bg-inherit text-base
+            className="p-2.5  bg-inherit text-base
             font-normal  border border-solid border-gray-700 rounded-lg transition
-                      ease-in-out  focus:outline-none  focus-visible:ring-2  focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-blue-600 text-white"
+                      ease-in-out  focus:outline-none  focus-visible:ring-2  focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-blue-600 text-white w-full"
             {...register('gender', { required: true })}
           >
             <option className="bg-black">Prefer not to say</option>
@@ -118,7 +149,9 @@ export default function Add() {
             <option className="bg-black">Female</option>
             <option className="bg-black">Other</option>
           </select>
-          {errors.gender && <p>{errors.gender.message}</p>}
+          {errors.gender && (
+            <p className="text-red-500 mt-3">{errors.gender.message}</p>
+          )}
         </div>
         <div className="mt-5 flex flex-col">
           <label htmlFor="salary" className="font-semibold mb-2">
@@ -128,6 +161,7 @@ export default function Add() {
             type="number"
             className="form-control
                       self-start
+                      w-full
                       px-3
                       py-1.5
                       text-base
@@ -140,15 +174,21 @@ export default function Add() {
                       m-0 focus:outline-none  focus-visible:ring-2  focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-blue-600 bg-inherit flex-1"
             {...register('salary', {
               required: true,
-              min: 0,
-              max: 1000000,
+              min: { value: 0, message: 'Salary must be greater than 0' },
+              max: {
+                value: 1000000000,
+                message:
+                  'Salary must be less than 1000000000, you are too rich',
+              },
               setValueAs(value) {
                 return Number(value);
               },
             })}
             placeholder="Enter Salary* (in CAD)"
           ></input>
-          {errors.salary && <p>{errors.salary.message}</p>}
+          {errors.salary && (
+            <p className="text-red-500 mt-3">{errors.salary.message}</p>
+          )}
         </div>
         <div className="flex justify-start">
           <button

@@ -5,7 +5,7 @@ export function getRequestDeps() {
   const fetcher = async (
     url: RequestInfo | URL,
     options?: RequestInit | undefined
-  ) => await fetch(url, options).then((res) => res.json());
+  ) => await fetch(url, options).then((res) => res);
 
   return {
     fetcher,

@@ -27,7 +27,7 @@ export default async function handle(
         salary: salary,
       },
     });
-    res.status(200);
+    res.status(200).end();
   } catch (e: any) {
     res.status(500).json({ error: e.message });
   }
