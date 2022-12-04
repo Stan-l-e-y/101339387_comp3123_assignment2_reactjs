@@ -1,6 +1,10 @@
 export type Employee = {
   id: string;
-  name: string;
+  email: string;
+  first_name: string;
+  gender: string;
+  last_name: string;
+  salary: number;
 };
 
 // model Employee {
