@@ -22,10 +22,14 @@ export default async function handle(
     });
     res.json(employee);
   } else if (req.method === 'DELETE') {
-    const employee = await prisma.employee.delete({
-      where: { id: String(employeeId) },
-    });
-    res.json(employee);
+    try {
+      await prisma.employee.delete({
+        where: { id: String(employeeId) },
+      });
+      res.status(200).end();
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
   } else {
     throw new Error(
       `The HTTP ${req.method} method is not supported at this route.`

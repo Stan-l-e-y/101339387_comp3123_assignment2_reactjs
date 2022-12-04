@@ -23,7 +23,6 @@ export default function Add() {
   const onSubmit: SubmitHandler<IEmployeeData> = async (
     data: IEmployeeData
   ) => {
-    console.log(data);
     try {
       const res: Response = await fetcher('/api/employee/post', {
         method: 'POST',

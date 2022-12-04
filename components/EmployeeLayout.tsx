@@ -14,7 +14,7 @@ export default function EmployeeLayout({
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
+      <main className={`${styles.main} `}>
         <h1 className={styles.title}>
           Employee <span>{title}</span>
         </h1>
