@@ -7,7 +7,15 @@ export type Employee = {
   salary: number;
 };
 
-export interface EmployeeLayoutProps {
+export interface IEmployeeLayoutProps {
   children?: React.ReactNode;
   title: string;
+}
+
+export interface IEmployeeData {
+  email: string;
+  first_name: string;
+  gender: string;
+  last_name: string;
+  salary: number;
 }

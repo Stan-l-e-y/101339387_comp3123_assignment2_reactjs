@@ -26,7 +26,7 @@ export default function Employee() {
   return (
     <EmployeeLayout title="View">
       <div className={`${styles.grid}`}>
-        <div className="mt-10 h-[40rem] flex-col">
+        <div className="mt-10 h-[40rem] flex flex-col space-y-8">
           <div className="">First Name: {employee.first_name}</div>
           <div className="mt-2">Last Name: {employee.last_name}</div>
           <div className="mt-2">Email: {employee.email}</div>

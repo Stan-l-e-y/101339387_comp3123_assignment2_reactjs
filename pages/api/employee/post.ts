@@ -6,9 +6,19 @@ export default async function handle(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  if (req.method !== 'POST') {
+    throw new Error(
+      `The HTTP ${req.method} method is not supported at this route.`
+    );
+  }
   const { first_name, email, gender, last_name, salary } = req.body;
+
+  if (!first_name || !email || !gender || !last_name || !salary) {
+    res.status(400).json({ error: 'Missing required fields' });
+  }
+
   try {
-    const result = await prisma.employee.create({
+    await prisma.employee.create({
       data: {
         email: email,
         first_name: first_name,
@@ -17,9 +27,8 @@ export default async function handle(
         salary: salary,
       },
     });
-    res.json(result);
+    res.status(200);
   } catch (e: any) {
     res.status(500).json({ error: e.message });
-    return;
   }
 }
