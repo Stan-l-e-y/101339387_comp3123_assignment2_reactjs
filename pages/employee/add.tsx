@@ -24,7 +24,7 @@ export default function Add() {
     data: IEmployeeData
   ) => {
     try {
-      const res: Response = await fetcher('/api/employee/post', {
+      const res = await fetcher('/api/employee/post', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

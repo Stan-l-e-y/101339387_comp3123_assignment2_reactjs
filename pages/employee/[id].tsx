@@ -19,7 +19,7 @@ export default function Employee() {
     }
   }, [id]);
 
-  if (error) return <div>failed to load</div>;
+  if (error) return <div>failed to load, message: {error.message}</div>;
 
   if (!employee) return <div>loading...</div>;
 

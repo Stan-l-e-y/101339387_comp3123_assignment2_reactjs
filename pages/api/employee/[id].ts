@@ -10,17 +10,30 @@ export default async function handle(
 ) {
   const employeeId = req.query.id;
   if (req.method === 'GET') {
-    const employee = await prisma.employee.findUnique({
-      where: { id: String(employeeId) },
-    });
-    res.json(employee);
+    try {
+      const employee = await prisma.employee.findUnique({
+        where: { id: String(employeeId) },
+      });
+      res.json(employee);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
   } else if (req.method === 'PUT') {
-    const { first_name, email } = req.body;
-    const employee = await prisma.employee.update({
-      where: { id: String(employeeId) },
-      data: { first_name, email },
-    });
-    res.json(employee);
+    const { first_name, email, gender, last_name, salary } = req.body;
+
+    if (!first_name || !email || !gender || !last_name || !salary) {
+      res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    try {
+      await prisma.employee.update({
+        where: { id: String(employeeId) },
+        data: { first_name, email, gender, last_name, salary },
+      });
+      res.status(200).end();
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
   } else if (req.method === 'DELETE') {
     try {
       await prisma.employee.delete({
