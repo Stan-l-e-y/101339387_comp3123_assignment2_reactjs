@@ -3,17 +3,49 @@ import styles from '../styles/Home.module.css';
 import { ILogin } from '../interfaces';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
+import { getRequestDeps } from '../lib/functions';
+import { useState } from 'react';
 
 export default function Login() {
   const router = useRouter();
+  const { fetcher, token } = getRequestDeps();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<ILogin>();
 
-  const onSubmit = (data: ILogin) => {
-    console.log(data);
+  const [serverError, setServerError] = useState<string | null>(null);
+
+  const onSubmit = async (data: ILogin) => {
+    try {
+      const res = await fetcher('/api/user/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+      const dataJson = await res.json();
+      if (res.ok) {
+        console.log('good');
+        // router.push('/');
+      }
+      if (res.status !== 200) {
+        throw new Error(dataJson.error);
+      }
+      //   if (dataJson.token) {
+      //       localStorage.setItem('token', dataJson.token);
+      //     set token as jwt cookie in browser
+
+      //     router.push('/');
+      //   }
+    } catch (error: any) {
+      setServerError(error.message);
+      setTimeout(() => {
+        setServerError(null);
+      }, 4000);
+    }
   };
   return (
     <div className={styles.container}>
@@ -25,6 +57,9 @@ export default function Login() {
 
       <main className={`${styles.main} `}>
         <h1 className={styles.title}>Login</h1>
+        {serverError && (
+          <p className="error mt-5 mb-5 text-red-500">{serverError}</p>
+        )}
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="h-[40rem] w-[20rem] flex-col "
