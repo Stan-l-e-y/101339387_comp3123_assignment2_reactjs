@@ -16,7 +16,7 @@ export default function Home() {
 
   const [error, setError] = useState(null);
 
-  if (errorEmployees) return <div>failed to load</div>;
+  if (errorEmployees) return <div>failed to load, not authorized</div>;
 
   if (!employees) return <div>loading...</div>;
 

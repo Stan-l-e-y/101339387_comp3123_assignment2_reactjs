@@ -1,7 +1,14 @@
-//navbar
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { deleteCookie } from 'cookies-next';
 
 export default function Navbar() {
+  const router = useRouter();
+  const logout = () => {
+    deleteCookie('jwt');
+    router.push('/login');
+  };
+
   return (
     <nav className="flex justify-between items-center h-16 mt-10  relative shadow-sm  ">
       <div className="ml-8">
@@ -27,12 +34,13 @@ export default function Navbar() {
           />
         </svg>
       </div>
-      <div className="pr-8 md:block hidden">
-        <Link href="/employee/add">
-          <span className="p-4 hover:bg-blue-700 bg-[#0070f3] rounded-lg">
-            Log Out
-          </span>
-        </Link>
+      <div
+        className="pr-8 md:block hidden hover:cursor-pointer"
+        onClick={() => logout()}
+      >
+        <span className="p-4 hover:bg-blue-700 bg-[#0070f3] rounded-lg">
+          Log Out
+        </span>
       </div>
     </nav>
   );
