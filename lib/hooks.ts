@@ -10,8 +10,7 @@ export function useFetch(url: RequestInfo | URL) {
       (res) => res.json()
     );
 
-  // const { data, error, mutate } = useSWR(token ? [url, token] : null, fetcher);
-  const { data, error, mutate } = useSWR(url, fetcher);
+  const { data, error, mutate } = useSWR(token ? [url, token] : null, fetcher);
 
   return {
     data,
