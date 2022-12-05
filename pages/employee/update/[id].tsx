@@ -70,7 +70,7 @@ export default function Update() {
   if (!employee) return <div>loading...</div>;
 
   return (
-    <EmployeeLayout title="Add">
+    <EmployeeLayout title="Update">
       {serverError && <div className="text-red-500 mt-10">{serverError}</div>}
       <form
         onSubmit={handleSubmit(onSubmit)}
