@@ -6,9 +6,9 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  res.json({ message: 'Hello' });
-  // const employees = await prisma.employee.findMany();
-  // res.status(200).json(employees);
+  // res.json({ message: 'Hello' });
+  const employees = await prisma.employee.findMany();
+  res.status(200).json(employees);
   // const token = req.headers.authorization?.split(' ')[1];
   // if (!token) {
   //   res.status(401).json({ error: 'unauthorized' });
